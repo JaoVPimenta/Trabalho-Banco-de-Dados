@@ -39,7 +39,7 @@ CREATE TABLE `Integrantes` (
 
 LOCK TABLES `Integrantes` WRITE;
 /*!40000 ALTER TABLE `Integrantes` DISABLE KEYS */;
-INSERT INTO `Integrantes` VALUES ('programador',2,1);
+INSERT INTO `Integrantes` VALUES ('programador',2,1),('rodar_bolsinha',4,2);
 /*!40000 ALTER TABLE `Integrantes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -57,7 +57,7 @@ CREATE TABLE `Pessoas` (
   `nome` varchar(500) NOT NULL,
   `sexo` varchar(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -66,7 +66,7 @@ CREATE TABLE `Pessoas` (
 
 LOCK TABLES `Pessoas` WRITE;
 /*!40000 ALTER TABLE `Pessoas` DISABLE KEYS */;
-INSERT INTO `Pessoas` VALUES (1,'123','2008-11-19','sla','F'),(2,'07298764107','2008-09-22','Rafael ','M');
+INSERT INTO `Pessoas` VALUES (1,'123','2008-11-19','sla','F'),(2,'12573','2008-09-22','Rafael','M'),(3,'777','2008-11-19','Joao','M'),(4,'6767','2008-10-08','Davi','F');
 /*!40000 ALTER TABLE `Pessoas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -83,7 +83,7 @@ CREATE TABLE `Projetos` (
   `data_final` date DEFAULT NULL,
   `nome` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -92,7 +92,7 @@ CREATE TABLE `Projetos` (
 
 LOCK TABLES `Projetos` WRITE;
 /*!40000 ALTER TABLE `Projetos` DISABLE KEYS */;
-INSERT INTO `Projetos` VALUES (1,'2025-11-28','2025-11-29','ti');
+INSERT INTO `Projetos` VALUES (1,'2025-11-28','2025-11-29','ti'),(2,'2025-11-28',NULL,'bolsinha');
 /*!40000 ALTER TABLE `Projetos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -132,4 +132,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-11-28 15:24:51
+-- Dump completed on 2025-11-30 11:05:54
