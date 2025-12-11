@@ -1,17 +1,18 @@
-package Projeto.model; 
+package Projeto.model;
 
 public class Integrante {
+    // não possui PK (id)
     private String cargo;
     private Integer pessoa_id;
     private Integer projeto_id;
+
+    public Integrante() {}
 
     public Integrante(String cargo, Integer pessoa_id, Integer projeto_id) {
         this.cargo = cargo;
         this.pessoa_id = pessoa_id;
         this.projeto_id = projeto_id;
     }
-
-    public Integrante() {}
 
     public String getCargo() {
         return cargo;
@@ -39,10 +40,6 @@ public class Integrante {
 
     @Override
     public String toString() {
-        return "Integrante{" +
-               "cargo='" + cargo + '\'' +
-               ", pessoa_id=" + pessoa_id +
-               ", projeto_id=" + projeto_id +
-               '}';
+        return "Integrante{ [CARGO - " + cargo + "] [PESSOA_ID - " + pessoa_id + "] [PROJETO_ID - " + projeto_id + "]";
     }
 }

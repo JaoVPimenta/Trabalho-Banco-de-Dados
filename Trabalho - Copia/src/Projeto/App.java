@@ -308,7 +308,7 @@ public class App {
         if (contatoCriado != null) {
             System.out.println("Contato adicionado com sucesso! ID: " + contatoCriado.getId());
             System.out.println("Contatos da Pessoa:");
-            contatoRepo.findByPessoaId(pessoaId).forEach(c -> System.out.println("  > " + c));
+            contatoRepo.findByPessoa_id(pessoaId).forEach(c -> System.out.println("  > " + c));
         } else {
             System.out.println("Falha ao adicionar contato.");
         }

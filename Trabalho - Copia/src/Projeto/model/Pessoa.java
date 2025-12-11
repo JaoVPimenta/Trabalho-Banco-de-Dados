@@ -9,6 +9,8 @@ public class Pessoa {
     private String nome;
     private String sexo;
 
+    public Pessoa() {}
+    
     public Pessoa(Integer id, String cpf, Date data_nascimento, String nome, String sexo) {
         this.id = id;
         this.cpf = cpf;
@@ -17,17 +19,12 @@ public class Pessoa {
         this.sexo = sexo;
     }
 
+    // sem id
     public Pessoa(String cpf, Date data_nascimento, String nome, String sexo) {
         this.cpf = cpf;
         this.data_nascimento = data_nascimento;
         this.nome = nome;
         this.sexo = sexo;
-    }
-
-    public Pessoa() {}
-
-    public Integer getId() {
-        return id;
     }
 
     public String getCpf() {
@@ -38,6 +35,10 @@ public class Pessoa {
         return data_nascimento;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
     public String getNome() {
         return nome;
     }
@@ -46,16 +47,16 @@ public class Pessoa {
         return sexo;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public void setCpf(String cpf) {
         this.cpf = cpf;
     }
 
     public void setData_nascimento(Date data_nascimento) {
         this.data_nascimento = data_nascimento;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public void setNome(String nome) {
@@ -68,12 +69,7 @@ public class Pessoa {
 
     @Override
     public String toString() {
-        return "Pessoa{" +
-               "id=" + id +
-               ", cpf='" + cpf + '\'' +
-               ", data_nascimento=" + data_nascimento +
-               ", nome='" + nome + '\'' +
-               ", sexo='" + sexo + '\'' +
-               '}';
+        return "Pessoa{ [ID - " + id + "] [CPF - " + cpf + "] [DATA_NASCIMENTO - " + data_nascimento + "] [NOME - " + nome + "] [SEXO - " + sexo + "]";
     }
+
 }
