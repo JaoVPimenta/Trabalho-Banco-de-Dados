@@ -157,5 +157,78 @@ public class App {
 
     // MÉTODOS PROJETOS
 
+    private static void cadastrarProjeto() {
 
+        System.out.println(" [Cadastro de Projeto] ");
+
+        System.out.println("Digite o nome do projeto: ");
+        String nome = leia.nextLine();
+
+        System.out.println("Informe a data de início do Projeto: [AAAA-MM-DD] ");
+        String dataInicialstr = leia.nextLine();
+        Date dataInicial = dataInicialstr.isEmpty() ? null : Date.valueOf(dataInicialstr);
+
+        System.out.println("Informe a data de conclusão do Projeto: [AAAA-MM-DD]");
+        String dataFinalstr = leia.nextLine();
+        Date dataFinal = dataFinalstr.isEmpty() ? null : Date.valueOf(dataFinalstr);
+
+        Projeto novoProjetos = new Projeto(dataInicial, dataFinal, nome);
+        Projeto projetoCriado = projetoRep.create(novoProjetos);
+
+        if (projetoCriado != null) {
+            System.out.println("Projeto cadastrado com sucesso!");
+        } else {
+            System.out.println("Erro ao cadastrar projeto.");
+        }
+    }
+
+    private static void listarProjeto() {
+
+        System.out.println(" [Listagem de Pessoas Cadastradas] ");
+        
+        List<Projeto> projetos = projetoRep.findAll();
+
+        if (projetos.isEmpty()) {
+            System.out.println("Nenhum projeto cadastrado.");
+        } else {
+            for(Projeto p : projetos) {
+                System.out.println(p);
+            }
+        }
+        
+    }
+
+    private static void editarProjeto() {
+
+        System.out.println(" [Editar Projeto] ");
+
+        System.out.println("Digite o ID do projeto que será atualizado: ");
+        int id = leia.nextInt();
+        leia.nextLine();
+
+        Optional<Projeto> opProjeto = projetoRep.findById(id);
+        if (opProjeto.isEmpty()) {
+            
+            System.out.printf("Projet0 com ID %d não encontrado.", id);
+            return;
+        }
+
+        Projeto projeto = opProjeto.get();
+        System.out.println("Projeto atual: " + projeto);
+
+        System.out.println("Novo nome: ");
+        String nome = leia.nextLine();
+        projeto.setNome(nome.isEmpty() ? projeto.getNome() : nome);
+
+        System.out.println("Nova data inicial: ");
+        String dataInicialstr = leia.nextLine();
+        if (dataInicialstr.isEmpty()) {
+            
+            projeto.getData_inicial();
+        } else {
+            Date dataInicial = Date.valueOf(dataInicialstr);
+            projeto.setData_inicial(dataInicial);
+        }
+        
+    }
 }
