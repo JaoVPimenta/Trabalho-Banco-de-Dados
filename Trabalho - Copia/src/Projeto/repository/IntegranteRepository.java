@@ -1,5 +1,8 @@
 package Projeto.repository;
 
+import Projeto.config.DatabaseConfig;
+import Projeto.model.Integrante;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -7,9 +10,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-import Projeto.config.DatabaseConfig;
-import Projeto.model.Integrante;
 
 public class IntegranteRepository {
 
@@ -89,7 +89,11 @@ public class IntegranteRepository {
     // READ (TUDO)
     public List<Integrante> findAll() {
 
-        String sql = "select * from Integrantes";
+        String sql = "SELECT I.*, P.nome AS nome_pessoa, Pr.nome AS nome_projeto " +
+                     "FROM Integrantes I " +
+                     "JOIN Pessoas P ON I.pessoa_id = P.id " +
+                     "JOIN Projetos Pr ON I.projeto_id = Pr.id " +
+                     "ORDER BY Pr.nome, P.nome";
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -106,7 +110,7 @@ public class IntegranteRepository {
                 
                 Integrante i = mapResultSetToIntegrante(rs);
 
-                System.out.println("");
+                System.out.println("Projeto: " + rs.getString("nome_projeto") + " | Pessoa: " + rs.getString("nome_pessoa") + " | Cargo: " + i.getCargo());
                 integrantes.add(i);
             }
         } catch (SQLException e) {

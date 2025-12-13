@@ -33,7 +33,7 @@ public class App {
                 leia.nextLine(); // limpa o buffer
                 opcao = 0;
             }
-        } while (opcao != 12);
+        } while (opcao != 13);
     }
 
     private static void exibirMenu() {
