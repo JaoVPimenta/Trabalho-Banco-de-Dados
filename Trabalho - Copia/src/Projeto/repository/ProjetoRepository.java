@@ -25,7 +25,7 @@ public class ProjetoRepository {
     // CREATE
     public Projeto create(Projeto projeto) {
 
-        String sql = "INSERT INTO Projeto (data_inicial, data_final, nome) values (?, ?, ?)";
+        String sql = "insert into Projetos (data_inicial, data_final, nome) values (?, ?, ?)";
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -149,7 +149,7 @@ public class ProjetoRepository {
     // DELETE
     public boolean delete(int id) {
         
-        String sql = "DELETE FROM Projetos WHERE id = ?";
+        String sql = "delete from Projetos where id = ?";
         Connection conn = null;
         PreparedStatement ps = null;
 
@@ -158,6 +158,7 @@ public class ProjetoRepository {
             conn = DatabaseConfig.getConnection();
 
             ps = conn.prepareStatement(sql);
+
             ps.setInt(1, id);
 
             return ps.executeUpdate() > 0;

@@ -220,7 +220,7 @@ public class App {
 
         if (pessoaRep.delete(id)) {
 
-            System.out.printf("Pessoa com ID %d excluída com sucesso!");
+            System.out.printf("Pessoa com ID %d excluída com sucesso!", id);
         } else {
             System.out.println("Erro ao excluir pessoa.");
         }
@@ -255,7 +255,7 @@ public class App {
 
     private static void listarProjetos() {
 
-        System.out.println(" [Listagem de Pessoas Cadastradas] ");
+        System.out.println(" [Listagem de Projetos Cadastrados] ");
 
         List<Projeto> projetos = projetoRep.findAll();
 
