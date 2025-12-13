@@ -89,11 +89,11 @@ public class IntegranteRepository {
     // READ (TUDO)
     public List<Integrante> findAll() {
 
-        String sql = "SELECT I.*, P.nome AS nome_pessoa, Pr.nome AS nome_projeto " +
-                     "FROM Integrantes I " +
-                     "JOIN Pessoas P ON I.pessoa_id = P.id " +
-                     "JOIN Projetos Pr ON I.projeto_id = Pr.id " +
-                     "ORDER BY Pr.nome, P.nome";
+        String sql = "select I.*, P.nome as nome_pessoa, Pr.nome as nome_projeto " +
+                     "from Integrantes I " +
+                     "join Pessoas P on I.pessoa_id = P.id " +
+                     "join Projetos Pr on I.projeto_id = Pr.id " +
+                     "order by Pr.nome, P.nome";
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;

@@ -28,7 +28,7 @@ public class ContatoRepository {
     // CREATE
     public Contato create(Contato contato) {
 
-        String sql = "INSERT INTO Contatos (contato, tipo, pessoa_id) values (?, ?, ?)";
+        String sql = "insert into contatos (contato, tipo, pessoa_id) values (?, ?, ?)";
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -103,7 +103,10 @@ public class ContatoRepository {
     // READ (TODOS)
     public List<Contato> findAll() {
 
-        String sql = "select * from contatos";
+        String sql = "select c.*, P.nome as nome_pessoa " + 
+                     "from contatos c " +
+                     "join Pessoas P on c.pessoa_id = P.id " +
+                     "order by P.nome";
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -117,7 +120,11 @@ public class ContatoRepository {
             rs = ps.executeQuery();
 
             while (rs.next()) {
-                contatos.add(mapResultSetContato(rs));
+
+                Contato c = mapResultSetContato(rs);
+
+                System.out.println("Pessoa: " + rs.getString("nome_pessoa") + " | Tipo: " + c.getTipo() + " | Contato: " + c.getContato());
+                contatos.add(c);
             }
         } catch (SQLException e) {
             

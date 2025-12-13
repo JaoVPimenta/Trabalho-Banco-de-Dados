@@ -33,7 +33,7 @@ public class App {
                 leia.nextLine(); // limpa o buffer
                 opcao = 0;
             }
-        } while (opcao != 13);
+        } while (opcao != 15);
     }
 
     private static void exibirMenu() {
@@ -54,12 +54,14 @@ public class App {
         System.out.println("---------------------------------");
         System.out.println("ASSOCIAÇÕES");
         System.out.println("9. Adicionar Contato a uma Pessoa");
-        System.out.println("10. Associar Pessoa a um Projeto (Integrante)");
-        System.out.println("11. Listar Integrantes");
-        System.out.println("12. Excluir associação");
+        System.out.println("10. Listar Contatos");
+        System.out.println("11. Associar Pessoa a um Projeto (Integrante)");
+        System.out.println("12. Listar Integrantes");
+        System.out.println("13. Editar Associação");
+        System.out.println("14. Excluir associação");
         System.out.println("---------------------------------");
         System.out.println("SISTEMA");
-        System.out.println("13. Sair");
+        System.out.println("15. Sair");
         System.out.println("=================================");
     }
 
@@ -94,15 +96,21 @@ public class App {
                     adicionarContatoAPessoa();
                     break;
                 case 10:
-                    associarPessoaAProjeto();
+                    listarContatos();
                     break;
                 case 11:
-                    listarIntegrantes();
+                    associarPessoaAProjeto();
                     break;
                 case 12:
-                    excluirAssociacao();
+                    listarIntegrantes();
                     break;
                 case 13:
+                    editarAssociacao();
+                    break;
+                case 14:
+                    excluirAssociacao();
+                    break;
+                case 15:
                     break; // sair
 
                 default:
@@ -363,6 +371,17 @@ public class App {
         }
     }
 
+    private static void listarContatos() {
+
+        System.out.println(" [Listagem de Contatos] ");
+
+        List<Contato> contatos = contatoRep.findAll();
+
+        if (contatos.isEmpty()) {
+            System.out.println("Nenhum contato adicionado.");
+        }
+    }
+
     private static void associarPessoaAProjeto() {
 
         System.out.println(" [Associar Pessoa a um Projeto] ");
@@ -405,6 +424,45 @@ public class App {
 
         if (integrantes.isEmpty()) {
             System.out.println("Nenhuma pessoa associada a projetos");
+        }
+    }
+
+    private static void editarAssociacao() {
+
+        System.out.println(" [Editar Associação] ");
+
+        System.out.print("Digite o ID da Pessoa: ");
+        int pessoaId = leia.nextInt();
+
+        System.out.println("Digite o ID do Projeto: ");
+        int projetoId = leia.nextInt();
+
+        leia.nextLine();
+
+        Optional<Pessoa> opPessoa = pessoaRep.findById(pessoaId);
+        if (opPessoa.isEmpty()) {
+            System.out.printf("Pessoa com ID %d não encontrada.", pessoaId);
+            return;
+        }
+
+        Optional<Projeto> opProjeto = projetoRep.findById(projetoId);
+        if (opProjeto.isEmpty()) {
+            System.out.printf("Projeto com ID %d não encontrado.", projetoId);
+            return;
+        }
+
+        Optional<Integrante> opIntegrante = integranteRep.findById(pessoaId, projetoId);
+        Integrante integrante = opIntegrante.get();
+        System.out.println("Associação atual: " + integrante);
+
+        System.out.println("Digite o novo cargo: ");
+        String cargo = leia.nextLine();
+        integrante.setCargo(cargo.isEmpty() ? integrante.getCargo() : cargo);
+
+        if (integranteRep.update(integrante)) {
+            System.out.println("Associaçã atualizada com sucesso!");
+        } else {
+            System.out.println("Erro ao atualizar associação.");
         }
     }
 
