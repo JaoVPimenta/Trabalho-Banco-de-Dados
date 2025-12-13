@@ -4,12 +4,13 @@ import Projeto.model.*;
 import Projeto.repository.*;
 
 import java.sql.Date;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
 public class App {
-    
+
     private static final Scanner leia = new Scanner(System.in);
     private static final ContatoRepository contatoRep = new ContatoRepository();
     private static final PessoaRepository pessoaRep = new PessoaRepository();
@@ -17,7 +18,22 @@ public class App {
     private static final IntegranteRepository integranteRep = new IntegranteRepository();
 
     public static void main(String[] args) {
-    
+
+        int opcao = 0;
+        do {
+            exibirMenu();      
+            try {
+                
+                System.out.print("Escolha uma opção abaixo: ");
+                opcao = leia.nextInt();
+                leia.nextLine();
+                executarOpcao(opcao);
+            } catch (InputMismatchException e) {
+                System.out.println("Entrada inválida." + e.getMessage());
+                leia.nextLine(); // limpa o buffer
+                opcao = 0;
+            }
+        } while (opcao != 12);
     }
 
     private static void exibirMenu() {
@@ -40,22 +56,70 @@ public class App {
         System.out.println("9. Adicionar Contato a uma Pessoa");
         System.out.println("10. Associar Pessoa a um Projeto (Integrante)");
         System.out.println("11. Listar Integrantes");
+        System.out.println("12. Excluir associação");
         System.out.println("---------------------------------");
         System.out.println("SISTEMA");
-        System.out.println("12. Sair");
+        System.out.println("13. Sair");
         System.out.println("=================================");
-        System.out.print("Escolha uma opção: ");
     }
 
-    // private static void executarOpcao(int opcao) {
-    //     try {
-            
-    // }
+    private static void executarOpcao(int opcao) {
+        try {
+            switch (opcao) {
+                case 1:
+                    cadastrarPessoa();
+                    break;
+                case 2:
+                    listarPessoas();
+                    break;
+                case 3:
+                    editarPessoa();
+                    break;
+                case 4:
+                    excluirPessoa();
+                    break;
+                case 5:
+                    cadastrarProjeto();
+                    break;
+                case 6:
+                    listarProjetos();
+                    break;
+                case 7:
+                    editarProjeto();
+                    break;
+                case 8:
+                    excluirProjeto();
+                    break;
+                case 9:
+                    adicionarContatoAPessoa();
+                    break;
+                case 10:
+                    associarPessoaAProjeto();
+                    break;
+                case 11:
+                    listarIntegrantes();
+                    break;
+                case 12:
+                    excluirAssociacao();
+                    break;
+                case 13:
+                    break; // sair
+
+                default:
+                    System.out.println("Opção inválida. Tente novamente");
+                    break;
+            }
+
+        } catch (Exception e) {
+            System.err.println("Erro: " + e.getMessage());
+        }
+
+    }
 
     // MÉTODOS PESSOAS
-    
+
     private static void cadastrarPessoa() {
-        
+
         System.out.println(" [Cadastro de Pessoa] ");
 
         System.out.println("Nome: ");
@@ -97,14 +161,14 @@ public class App {
     private static void editarPessoa() {
 
         System.out.println(" [Editar Pessoa] ");
-        
+
         System.out.print("Digite o ID da pessoa para editar: ");
         int id = leia.nextInt();
         leia.nextLine(); // limpeza do buffer
 
         Optional<Pessoa> opPessoa = pessoaRep.findById(id);
         if (opPessoa.isEmpty()) {
-            
+
             System.out.printf("Pessoa com ID %d não encontrada.", id);
             return; // encerra o método
         }
@@ -122,7 +186,7 @@ public class App {
         System.out.println("Nova data de nascimento: ");
         String dataNascimento = leia.nextLine();
         if (!dataNascimento.isEmpty()) { // não é possível usar a lógica ternária
-           pessoa.setData_nascimento(Date.valueOf(dataNascimento)); 
+            pessoa.setData_nascimento(Date.valueOf(dataNascimento));
         }
 
         System.out.println("Novo sexo: ");
@@ -147,13 +211,12 @@ public class App {
         leia.nextLine();
 
         if (pessoaRep.delete(id)) {
-            
+
             System.out.printf("Pessoa com ID %d excluída com sucesso!");
         } else {
             System.out.println("Erro ao excluir pessoa.");
         }
     }
-
 
     // MÉTODOS PROJETOS
 
@@ -182,53 +245,184 @@ public class App {
         }
     }
 
-    private static void listarProjeto() {
+    private static void listarProjetos() {
 
         System.out.println(" [Listagem de Pessoas Cadastradas] ");
-        
+
         List<Projeto> projetos = projetoRep.findAll();
 
         if (projetos.isEmpty()) {
             System.out.println("Nenhum projeto cadastrado.");
         } else {
-            for(Projeto p : projetos) {
+            for (Projeto p : projetos) {
                 System.out.println(p);
             }
         }
-        
+
     }
 
     private static void editarProjeto() {
 
         System.out.println(" [Editar Projeto] ");
 
-        System.out.println("Digite o ID do projeto que será atualizado: ");
+        System.out.print("Digite o ID do projeto para editar: ");
         int id = leia.nextInt();
         leia.nextLine();
 
         Optional<Projeto> opProjeto = projetoRep.findById(id);
         if (opProjeto.isEmpty()) {
-            
-            System.out.printf("Projet0 com ID %d não encontrado.", id);
+
+            System.out.printf("Projeto com ID %d não encontrado.", id);
             return;
         }
 
         Projeto projeto = opProjeto.get();
         System.out.println("Projeto atual: " + projeto);
 
-        System.out.println("Novo nome: ");
+        System.out.print("Novo nome: ");
         String nome = leia.nextLine();
         projeto.setNome(nome.isEmpty() ? projeto.getNome() : nome);
 
-        System.out.println("Nova data inicial: ");
-        String dataInicialstr = leia.nextLine();
-        if (dataInicialstr.isEmpty()) {
-            
-            projeto.getData_inicial();
-        } else {
-            Date dataInicial = Date.valueOf(dataInicialstr);
-            projeto.setData_inicial(dataInicial);
+        System.out.println("Nova Data Inicial (AAAA-MM-DD)");
+        String dataInicialStr = leia.nextLine();
+        if (!dataInicialStr.isEmpty()) {
+            projeto.setData_inicial(Date.valueOf(dataInicialStr));
         }
-        
+
+        System.out.println("Nova Data Final (AAAA-MM-DD)");
+        String dataFinalStr = leia.nextLine();
+        if (!dataFinalStr.isEmpty()) {
+            projeto.setData_final(Date.valueOf(dataFinalStr));
+        }
+
+        if (projetoRep.update(projeto)) {
+
+            System.out.println("Projeto atualizado com sucesso!");
+        } else {
+            System.out.println("Erro ao atualiza Projeto.");
+        }
+    }
+
+    private static void excluirProjeto() {
+
+        System.out.println(" [Excluir Projeto] ");
+
+        System.out.print("Digite o ID do projeto para excluir: ");
+        int id = leia.nextInt();
+        leia.nextLine();
+
+        if (projetoRep.delete(id)) {
+
+            System.out.println("Projeto excluído com sucesso!");
+        } else {
+            System.out.println("Erro ao excluir projeto.");
+        }
+    }
+
+    // MÉTODOS ACOSSIAÇÕES
+
+    private static void adicionarContatoAPessoa() {
+
+        System.out.println(" [Adicionar Contato] ");
+
+        System.out.print("Digite o ID da pessoa para adicionar o contato: ");
+        int pessoaId = leia.nextInt();
+        leia.nextLine();
+
+        if (pessoaRep.findById(pessoaId).isEmpty()) {
+            System.out.printf("Pessoa com ID %d não encontrada.", pessoaId);
+            return;
+        }
+        System.out.println(pessoaRep.findById(pessoaId));
+
+        String tipoTeste = "";
+        int cont = 0;
+        while (cont == 0) {
+
+            System.out.println("Tipo de Contato (Email, Telefone): ");
+            tipoTeste = leia.nextLine();
+            tipoTeste = tipoTeste.toUpperCase();
+
+            if (tipoTeste.equals("TELEFONE") || tipoTeste.equals("EMAIL")) {
+                cont++;
+            }
+        }
+        String tipo = tipoTeste;
+
+        System.out.println("Digite o contato: ");
+        String contatoV = leia.nextLine();
+
+        Contato novoContato = new Contato(contatoV, tipo, pessoaId);
+        Contato contatoCriado = contatoRep.create(novoContato);
+
+        if (contatoCriado != null) {
+
+            System.out.println("Contato adicionado com sucesso!");
+        } else {
+            System.out.println("Erro ao adicionar contato");
+        }
+    }
+
+    private static void associarPessoaAProjeto() {
+
+        System.out.println(" [Associar Pessoa a um Projeto] ");
+
+        System.out.print("Digite o ID da Pessoa: ");
+        int pessoaId = leia.nextInt();
+
+        System.out.print("Digite o ID do projeto: ");
+        int projetoId = leia.nextInt();
+
+        leia.nextLine();
+
+        if (pessoaRep.findById(pessoaId).isEmpty()) {
+            System.out.printf("Pessoa com ID %d não encontrada.", pessoaId);
+            return;
+        }
+        if (projetoRep.findById(projetoId).isEmpty()) {
+            System.out.printf("Projeto com ID %d não encontrado.", projetoId);
+            return;
+        }
+
+        System.out.println("Digite o cargo em que você se encontra: ");
+        String cargo = leia.nextLine();
+
+        Integrante novoIntegrante = new Integrante(cargo, pessoaId, projetoId);
+        Integrante integranteCriado = integranteRep.create(novoIntegrante);
+
+        if (integranteCriado != null) {
+            System.out.println("Pessoa associada ao Projeto com sucesso!");
+        } else {
+            System.out.println("Erro ao associar Pessoa ao Projeto.");
+        }
+    }
+
+    private static void listarIntegrantes() {
+
+        System.out.println(" [Listagem de Integrantes] ");
+
+        List<Integrante> integrantes = integranteRep.findAll();
+
+        if (integrantes.isEmpty()) {
+            System.out.println("Nenhuma pessoa associada a projetos");
+        }
+    }
+
+    private static void excluirAssociacao() {
+
+        System.out.println(" [Excluir Associação] ");
+
+        System.out.print("Digite o ID da pessoa: ");
+        int pessoaId = leia.nextInt();
+
+        System.out.println("Digite o ID do projeto: ");
+        int projetoId = leia.nextInt();
+        leia.nextLine();
+
+        if (integranteRep.delete(pessoaId, projetoId)) {
+            System.out.println("Associação excluída com sucesso!");
+        } else {
+            System.out.println("Erro ao excluir associação.");
+        }
     }
 }
