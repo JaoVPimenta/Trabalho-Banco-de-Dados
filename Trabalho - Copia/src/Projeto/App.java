@@ -341,7 +341,10 @@ public class App {
             System.out.printf("Pessoa com ID %d não encontrada.", pessoaId);
             return;
         }
+        
+        // Se a pessoa for encontrada (presente no Optional), executa a ação: 
         pessoaRep.findById(pessoaId).ifPresent(pessoa -> System.out.println(pessoa));
+        // a lambda 'pessoa -> ...' recebe apenas o OBJETO Pessoa (sem a caixa do Optional) e o imprime.
 
         String tipoTeste = "";
         int cont = 0;
