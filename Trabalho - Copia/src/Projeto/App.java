@@ -341,7 +341,7 @@ public class App {
             System.out.printf("Pessoa com ID %d não encontrada.", pessoaId);
             return;
         }
-        System.out.println(pessoaRep.findById(pessoaId));
+        pessoaRep.findById(pessoaId).ifPresent(pessoa -> System.out.println(pessoa));
 
         String tipoTeste = "";
         int cont = 0;
