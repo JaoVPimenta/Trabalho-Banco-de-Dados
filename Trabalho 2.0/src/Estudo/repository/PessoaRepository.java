@@ -26,7 +26,7 @@ public class PessoaRepository {
     // CREATE
     public Pessoa create(Pessoa pessoa) {
 
-        String sql = "INSERT INTO Pessoas (cpf, data_nascimento, nome, sexo) VALUES (?, ?, ?, ?)";
+        String sql = "insert into Pessoas (cpf, data_nascimento, nome, sexo) VALUES (?, ?, ?, ?)";
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
