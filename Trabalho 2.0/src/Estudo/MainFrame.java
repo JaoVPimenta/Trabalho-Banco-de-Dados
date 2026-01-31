@@ -23,7 +23,7 @@ public class MainFrame extends JFrame {
     private final ContatoRepository contatoRep = new ContatoRepository();
 
     // Estado Atual
-    private Pessoa pessoaSelecionada = null; // Se null, estamos criando uma nova
+    private Pessoa pessoaSelecionada = null; 
 
     // Componentes de Texto (Pessoa)
     private JTextField txtNome;
@@ -145,7 +145,7 @@ public class MainFrame extends JFrame {
         // Tabela de Contatos
         String[] colunasContatos = {"ID", "Contato", "Tipo"};
         modeloContatos = new DefaultTableModel(colunasContatos, 0) {
-            @Override // Bloquear edição direta na célula
+            @Override 
             public boolean isCellEditable(int row, int column) { return false; }
         };
         tabelaContatos = new JTable(modeloContatos);
